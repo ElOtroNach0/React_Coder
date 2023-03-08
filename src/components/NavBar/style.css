@@ -1,0 +1,26 @@
+li {
+    padding: 1rem;
+}
+a {
+    text-decoration: none;
+    color: #fff;
+}
+.navbar{
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ background-color: #332c2c;
+}
+.navbar__secciones{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.secciones >ul {
+    display: flex;
+    justify-content: space-around;
+    list-style-type: none;
+}
+.container__ItemListContainer{
+    text-align: center;
+}

@@ -1,0 +1,18 @@
+.cartWidget {
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.cartWidget:hover{
+    color: white;
+    font-size: 25px;
+}
+.icono__carrito{
+    font-size: 23px;
+}
+
+.icono__carrito__cantidad{
+    padding: 5px;
+    font-weight: 700;
+}
