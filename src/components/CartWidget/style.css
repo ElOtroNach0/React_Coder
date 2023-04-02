@@ -3,7 +3,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
+    color: white;
+    }
 .cartWidget:hover{
     color: white;
     font-size: 25px;

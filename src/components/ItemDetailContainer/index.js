@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import catalogo from "../../productos/catalogo";
 import { useParams } from "react-router-dom";
 import ItemCount from "../ItemCount/itemCount";
+import cartContex from "../../context/cartContex";
+import { useContext } from "react";
 
 // funcion que crea una promesa para luego enviarla al .then dentro del useeffect
 function getDataOneItem(idIProducto) {
@@ -14,9 +16,11 @@ function getDataOneItem(idIProducto) {
 // *****************************************************************************************
 function ItemDetailContainer() {
   const [bicicleta, setUser] = useState({});
-
+  
   const params = useParams();
   const idBici = params.idBici;
+  
+  const { agregarItem } = useContext(cartContex);
 
   useEffect(() => {
     getDataOneItem(idBici).then((res) => {
@@ -24,9 +28,10 @@ function ItemDetailContainer() {
     });
   }, []);
 
-  function agregarAlCarrito() {
-    console.log("Agregaste tu compra al carrito!");
-}
+  function agregarAlCarrito(count) {
+    alert(`Agregaste ${count} tu compra al carrito!`);
+      agregarItem(bicicleta, count);
+  }
 
   return (
     <>
