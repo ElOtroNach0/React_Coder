@@ -1,35 +1,60 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import catalogo from '../../productos/catalogo';
+import ItemList from '../ItemList/ItemList';
 
-function ItemDetailContainer() {
-  const [a, setUser] = useState([]);
+// funcion que crea una promesa para luego enviarla al .then dentro del useeffect
+function getDataItem(){
+  return new Promise( (res, rej)=>{ 
+    setTimeout(()=>{
+      res(catalogo);
+    }, 2000);
+  });
+}
+
+// Funcion para filtrar mediante la url
+
+function getDataItemCategory(urlCategoria){
+  return new Promise( (res, rej)=>{ 
+    setTimeout(()=>{
+      let filtro = catalogo.filter(
+        (item) => item.category === urlCategoria
+        );
+      res(filtro)
+    }, 2000);
+  });
+}
+
+
+// Funcion que retorna la promesa, si es que se cumple.
+function ItemListContainer() {
+  const [bicicletas, setUser] = useState([]);
   
-    useEffect(() => {
-      fetch("https://reqres.in/api/users")
-      .then((res) => {
-        return res.json();
-      })
-      .then((json) => {
-        setUser(json.data);
-      });
-    }, []);
+  const params = useParams();
+  const idCategoria = params.idCategoria;
+  
+  // Funcion async-await
+  async function mostrarDatos(){
+    if(idCategoria === undefined){
+        let respuestaAwait = await getDataItem();
+        setUser(respuestaAwait);
+    }else{
+      let respuestaAwait = await getDataItemCategory(idCategoria);
+      setUser(respuestaAwait);
+    }
+  }
+
+  useEffect(() => {
+    mostrarDatos();
+  }, [idCategoria]);
+
 
   return (
-    <div>
-      <ul>
-        {a.map((datos) => (
-          <li key={datos.id}>
-            <img src={datos.avatar} alt={datos.first_name}/>
-            <h4>{`${datos.first_name} ${datos.last_name}`}</h4>
-            <p>{datos.email}</p>
-            <Link to={`/category/${datos.id}`}>
-              <button>Ver detalles</button>
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <>
+      <ItemList bicicletas={bicicletas} />
+    </>
   );
 }
 
-export default ItemDetailContainer;
+
+export default ItemListContainer;

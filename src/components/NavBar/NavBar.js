@@ -14,9 +14,8 @@ function NavBar() {
                 <div className='secciones'>
                     <ul>
                         <li><Link to="/">Inicio</Link></li>
-                        <li><Link to="/category/:idItem" >Bicicletas</Link></li>
-                        <li><Link to="/accesorios">Accesorios</Link></li>
-                        <li><Link to="/contacto">Contacto</Link></li>
+                        <li><Link to="/catalogo/MTB">Bicicletas MTB</Link></li>
+                        <li><Link to="/catalogo/Pista">Bicicletas Pista</Link></li>
                     </ul>
                 </div>
             </div>
