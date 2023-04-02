@@ -7,6 +7,7 @@ const catalogo =[
       category: "MTB",
       brand: "Trek",
       stock: 10,
+      offer: 10,
     },
     {
       id: 2,
@@ -16,6 +17,7 @@ const catalogo =[
       category: "Pista",
       brand: "Fuji",
       stock: 10,
+      offer: 20,
     },
     {
       id: 3,
@@ -42,7 +44,7 @@ const catalogo =[
       price: 3299.99,
       category: "MTB",
       brand: "Santa Cruz",
-      stock: 10,
+      stock: 0,
     },
     {
       id:6,
@@ -69,7 +71,7 @@ const catalogo =[
       price: 1299.99,
       category: "Pista",
       brand: "Cinelli",
-      stock: 10,
+      stock: 0,
     },
     {
       id: 9,

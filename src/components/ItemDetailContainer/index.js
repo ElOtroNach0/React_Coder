@@ -1,25 +1,28 @@
 import { useState, useEffect } from "react";
 import catalogo from "../../productos/catalogo";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import ItemCount from "../ItemCount/itemCount";
 import cartContex from "../../context/cartContex";
 import { useContext } from "react";
+import Button from "../Button/Button";
+import Loader from "../Loader/loader";
 
 // funcion que crea una promesa para luego enviarla al .then dentro del useeffect
 function getDataOneItem(idIProducto) {
   return new Promise((res, rej) => {
-      let encontrado = catalogo.find((item) => item.id === Number(idIProducto));
-      res(encontrado)
+    let encontrado = catalogo.find((item) => item.id === Number(idIProducto));
+    res(encontrado)
   });
 };
 
 // *****************************************************************************************
 function ItemDetailContainer() {
   const [bicicleta, setUser] = useState({});
-  
+  const [cargadoEnCarrito, setCargadoEnCarrito] = useState(true);
+
   const params = useParams();
   const idBici = params.idBici;
-  
+
   const { agregarItem } = useContext(cartContex);
 
   useEffect(() => {
@@ -30,8 +33,12 @@ function ItemDetailContainer() {
 
   function agregarAlCarrito(count) {
     alert(`Agregaste ${count} tu compra al carrito!`);
-      agregarItem(bicicleta, count);
+    agregarItem(bicicleta, count);
+    setCargadoEnCarrito(false)
   }
+
+  // Loader
+  if (bicicleta.name === undefined) return <Loader />;
 
   return (
     <>
@@ -40,7 +47,14 @@ function ItemDetailContainer() {
           <li key={bicicleta.id}>
             <h4>{`${bicicleta.name} ${bicicleta.brand}`}</h4>
             <p>Precio: ${bicicleta.price}</p>
-              <ItemCount ini={1} stock={bicicleta.stock} agregarAlCarrito={agregarAlCarrito} />
+            {
+              cargadoEnCarrito ?
+                <ItemCount ini={1} stock={bicicleta.stock} agregarAlCarrito={agregarAlCarrito} />
+                :
+                <Link to="/carrito">
+                  <Button>Ir al carrito</Button>
+                </Link>
+            }
           </li>
         </ul>
       </div>

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import catalogo from '../../productos/catalogo';
-import ItemList from '../ItemList/ItemList';
+import Item from "../Item/Item";
+import Loader from "../Loader/loader";
 
 // funcion que crea una promesa para luego enviarla al .then dentro del useeffect
 function getDataItem(){
@@ -21,14 +22,14 @@ function getDataItemCategory(urlCategoria){
         (item) => item.category === urlCategoria
         );
       res(filtro)
-    }, 2000);
+    }, 3000);
   });
 }
-
 
 // Funcion que retorna la promesa, si es que se cumple.
 function ItemListContainer() {
   const [bicicletas, setUser] = useState([]);
+  const [cargando, setCargando] = useState(true);
   
   const params = useParams();
   const idCategoria = params.idCategoria;
@@ -38,9 +39,11 @@ function ItemListContainer() {
     if(idCategoria === undefined){
         let respuestaAwait = await getDataItem();
         setUser(respuestaAwait);
+        setCargando(false);
     }else{
       let respuestaAwait = await getDataItemCategory(idCategoria);
       setUser(respuestaAwait);
+      setCargando(false);
     }
   }
 
@@ -48,10 +51,9 @@ function ItemListContainer() {
     mostrarDatos();
   }, [idCategoria]);
 
-
   return (
     <>
-      <ItemList bicicletas={bicicletas} />
+      {cargando?<Loader/>: <Item bicicletas={bicicletas} />}
     </>
   );
 }
