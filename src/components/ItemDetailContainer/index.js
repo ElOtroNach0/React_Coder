@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import catalogo from "../../productos/catalogo";
 import { Link, useParams } from "react-router-dom";
 import ItemCount from "../ItemCount/itemCount";
-import cartContex from "../../context/cartContex";
+import cartContext from "../../context/cartContext";
 import { useContext } from "react";
 import Button from "../Button/Button";
 import Loader from "../Loader/loader";
@@ -23,12 +23,13 @@ function ItemDetailContainer() {
   const params = useParams();
   const idBici = params.idBici;
 
-  const { agregarItem } = useContext(cartContex);
+  const { agregarItem } = useContext(cartContext);
 
   useEffect(() => {
     getDataOneItem(idBici).then((res) => {
       setUser(res);
-    });
+    })
+    .catch((error) => alert(error));
   }, []);
 
   function agregarAlCarrito(count) {

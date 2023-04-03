@@ -1,11 +1,11 @@
 import './style.css';
 import { BsFillCartFill } from 'react-icons/bs';
 import { useContext } from 'react';
-import cartContex from '../../context/cartContex';
+import cartContext from '../../context/cartContext';
 
 function CartWidget() {
 
-  const { cart } = useContext(cartContex);
+  const { cart } = useContext(cartContext);
   const cantidadProductos = cart.length;
   
   return (

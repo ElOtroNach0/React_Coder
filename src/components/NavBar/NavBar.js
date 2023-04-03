@@ -3,7 +3,7 @@ import CartWidget from '../CartWidget/CartWidget.js';
 import { Link } from 'react-router-dom';
 
 function NavBar() {
-    return(
+    return (
         <nav className="navbar">
             <div className='navbar__secciones'>
                 <div className='logo'>
@@ -20,7 +20,9 @@ function NavBar() {
                 </div>
             </div>
             <div className='navabar__carrito'>
-                <CartWidget />
+                <Link to="/cart">
+                    <CartWidget />
+                </Link>
             </div>
         </nav>
     );
