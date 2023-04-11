@@ -16,7 +16,10 @@ function CartContextProv(props) {
     setCart([]);
  }
 
- function cantidadCart(){
+ function cantidadCart() {
+   let total = 0;
+   cart.forEach((item) => total + item.count);
+   return total;
  }
 
  function getPriceInCart() {

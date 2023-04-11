@@ -2,6 +2,7 @@
 
 import { getFirestore, collection, addDoc } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
+import catalogo from "../productos/catalogo";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBWigZ55ZYoBEFQyPdnMHAiZ3li5EiGIag",
@@ -21,3 +22,11 @@ export async function agregarOrdenDeCompra(orderData){
     const response = await addDoc(coleccionProductos, orderData);
     return response.id
 }
+
+export async function exportardb() {
+  for (let item of catalogo){
+    const coleccionProductos = collection(db, "productos");
+    const { id } = await addDoc(coleccionProductos, item);
+    console.log("Nuevo producto ingresado", id)
+  }
+};

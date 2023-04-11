@@ -5,6 +5,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { CartContextProv } from './context/cartContext';
 import CartContainer from './components/CartContainer/CartContainer';
 import GraciasCompra from './components/GraciasCompra/GraciasCompra';
+import { exportardb } from './dataBase/db';
+import Button from './components/Button/Button';
 
 
 function App() {
@@ -22,6 +24,10 @@ function App() {
           </Routes>
         </BrowserRouter>
       </CartContextProv>
+
+      <div>
+        {/* <Button onClick={exportardb}>Exportar DB</Button> */}
+      </div>
     </div>
   );
 }
