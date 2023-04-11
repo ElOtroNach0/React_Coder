@@ -6,7 +6,7 @@ import Loader from "../Loader/loader";
 
 // Config DB FireBase
 
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
@@ -37,15 +37,14 @@ async function getDataItem() {
 
 // Funcion para filtrar mediante la url
 
-function getDataItemCategory(urlCategoria){
-  return new Promise( (res, rej)=>{ 
-    setTimeout(()=>{
-      let filtro = catalogo.filter(
-        (item) => item.category === urlCategoria
-        );
-      res(filtro)
-    }, 3000);
-  });
+async function getDataItemCategory(urlCategoria){
+  const coleccionDeProductos = collection(db, "productos");
+  const q = query(coleccionDeProductos, where("category", "==",urlCategoria ));
+
+  let snapshot = await getDocs(q);
+  const datosDb = snapshot.docs;
+  const datosdbMap = datosDb.map((doc) => ({ ...doc.data(), id: doc.id }));
+  return datosdbMap
 }
 
 // Funcion que retorna la promesa, si es que se cumple.
