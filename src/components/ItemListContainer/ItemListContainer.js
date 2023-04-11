@@ -4,14 +4,36 @@ import catalogo from '../../productos/catalogo';
 import Item from "../Item/Item";
 import Loader from "../Loader/loader";
 
-// funcion que crea una promesa para luego enviarla al .then dentro del useeffect
-function getDataItem(){
-  return new Promise( (res, rej)=>{ 
-    setTimeout(()=>{
-      res(catalogo);
-    }, 2000);
-  });
-}
+// Config DB FireBase
+
+import { collection, getDocs } from "firebase/firestore";
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBWigZ55ZYoBEFQyPdnMHAiZ3li5EiGIag",
+  authDomain: "react-proyectocoder.firebaseapp.com",
+  projectId: "react-proyectocoder",
+  storageBucket: "react-proyectocoder.appspot.com",
+  messagingSenderId: "418155216930",
+  appId: "1:418155216930:web:ff9709981d006e78024a7b",
+  measurementId: "G-5Y0W29HMDM"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+async function getDataItem() {
+  // 1. Obtener referencia a mi coleccion de datos
+  // 2 Llamamos a la coleccion con getDocs
+  // 3. Promesa con array de datos
+  // 4. obtenemos los datos de ese array con doc.data()
+  const coleccionDeProductos = collection(db, "productos");
+  let snapshot = await getDocs(coleccionDeProductos)
+  const datosDb = snapshot.docs;
+  const datosdbMap = datosDb.map((doc) => ({ ...doc.data(), id: doc.id }));
+  return datosdbMap;
+};
 
 // Funcion para filtrar mediante la url
 
@@ -30,17 +52,17 @@ function getDataItemCategory(urlCategoria){
 function ItemListContainer() {
   const [bicicletas, setUser] = useState([]);
   const [cargando, setCargando] = useState(true);
-  
+
   const params = useParams();
   const idCategoria = params.idCategoria;
-  
+
   // Funcion async-await
-  async function mostrarDatos(){
-    if(idCategoria === undefined){
-        let respuestaAwait = await getDataItem();
-        setUser(respuestaAwait);
-        setCargando(false);
-    }else{
+  async function mostrarDatos() {
+    if (idCategoria === undefined) {
+      let respuestaAwait = await getDataItem();
+      setUser(respuestaAwait);
+      setCargando(false);
+    } else {
       let respuestaAwait = await getDataItemCategory(idCategoria);
       setUser(respuestaAwait);
       setCargando(false);
@@ -53,7 +75,7 @@ function ItemListContainer() {
 
   return (
     <>
-      {cargando?<Loader/>: <Item bicicletas={bicicletas} />}
+      {cargando ? <Loader /> : <Item bicicletas={bicicletas} />}
     </>
   );
 }

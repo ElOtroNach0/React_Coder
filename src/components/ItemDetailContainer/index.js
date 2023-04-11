@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import catalogo from "../../productos/catalogo";
 import { Link, useParams } from "react-router-dom";
 import ItemCount from "../ItemCount/itemCount";
 import cartContext from "../../context/cartContext";
@@ -7,13 +6,32 @@ import { useContext } from "react";
 import Button from "../Button/Button";
 import Loader from "../Loader/loader";
 
-// funcion que crea una promesa para luego enviarla al .then dentro del useeffect
-function getDataOneItem(idIProducto) {
-  return new Promise((res, rej) => {
-    let encontrado = catalogo.find((item) => item.id === Number(idIProducto));
-    res(encontrado)
-  });
+// Config DB FireBase
+
+import { doc, getDoc, collection } from "firebase/firestore";
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBWigZ55ZYoBEFQyPdnMHAiZ3li5EiGIag",
+  authDomain: "react-proyectocoder.firebaseapp.com",
+  projectId: "react-proyectocoder",
+  storageBucket: "react-proyectocoder.appspot.com",
+  messagingSenderId: "418155216930",
+  appId: "1:418155216930:web:ff9709981d006e78024a7b",
+  measurementId: "G-5Y0W29HMDM"
 };
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+async function getDataOneItem(idIProducto){
+  const coleccionDeProductos = collection(db, "productos");
+  const docRef = doc(coleccionDeProductos, idIProducto);
+
+  const docSnap = await getDoc(docRef);
+  return {...docSnap.data(), id: docSnap.id };
+}
 
 // *****************************************************************************************
 function ItemDetailContainer() {
