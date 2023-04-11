@@ -70,7 +70,7 @@ function ItemDetailContainer() {
               cargadoEnCarrito ?
                 <ItemCount ini={1} stock={bicicleta.stock} agregarAlCarrito={agregarAlCarrito} />
                 :
-                <Link to="/carrito">
+                <Link to="/cart">
                   <Button>Ir al carrito</Button>
                 </Link>
             }

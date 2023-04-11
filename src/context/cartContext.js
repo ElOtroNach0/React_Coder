@@ -1,7 +1,7 @@
 import { createContext, useState } from "react";
 
 const cartContext = createContext({
-    cart: [],
+cart: [],
 });
 const Provider = cartContext.Provider;
 
@@ -17,11 +17,14 @@ function CartContextProv(props) {
  }
 
  function cantidadCart(){
-    
  }
 
+ function getPriceInCart() {
+    return 5600;
+  }
+
     return (
-        <Provider value={{ cart, agregarItem }}>{props.children}</Provider>
+        <Provider value={{ cart, agregarItem, getPriceInCart }}>{props.children}</Provider>
     );
 }
 export { CartContextProv };

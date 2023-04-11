@@ -1,11 +1,13 @@
 import React, { useContext } from 'react'
 import cartContex from '../../context/cartContext'
+import CheckoutCart from '../CheckoutCart/CheckoutCart'
 
 const CartContainer = () => {
 
-    const { cart } = useContext(cartContex)
+    const { cart, getPriceInCart } = useContext(cartContex)
 
     return (
+        <>
         <div>
             {cart.map((item) => {
                 return (
@@ -18,6 +20,9 @@ const CartContainer = () => {
             })
             };
         </div>
+
+        <CheckoutCart cart={cart} total={getPriceInCart()}/>
+        </>
     )
 }
 
